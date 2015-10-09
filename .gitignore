@@ -1,0 +1,4 @@
+*.pyc
+TODO
+db.sqlite3
+venv/
