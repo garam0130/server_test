@@ -37,7 +37,7 @@ class GroupInfo(models.Model):
         return self.group.name
         # self.group.id != self.id
 
-    def set_ass_penalty(time, standard_late): # standard_late 
+    def set_ass_penalty(time, standard_late): # standard_late : 이 부분 dictionary 처리 해줘야하는데 잘 모르겠슴.
 
         if time <= 0
             att_penalty = 0    
@@ -68,6 +68,7 @@ class Meeting(models.Model):
     group = models.ForeignKey(GroupInfo)  # group.id != groupinfo.id
     place = models.ForeignKey(Place, blank=True, null=True)
     homework = models.CharField(max_length=40, default='null')  # to do at that day
+    detail = models.TextFiled()
 
     def __str__(self):
         return str(self.time)
@@ -100,6 +101,7 @@ class Penalty(models.Model):
 class Grouping(models.Model):
     group = models.ForeignKey(GroupInfo) # group.id != groupinfo.id
     user = models.ForeignKey(UserInfo)  # user.id != userinfo.id
+    money = modles.CommaSeparatedIntegerField(max_length=20)
 
     def __str__(self):
         return self.group
@@ -109,3 +111,6 @@ class Deposit(models.Model):
     penalty = models.CommaSeparatedIntegerField(max_length=20)
     expense = models.CommaSeparatedIntegerField(max_length=20)
     balance = models.CommaSeparatedIntegerField(max_length=20)
+
+    def get_balance(penalty, expense, balance, Grouping.money):
+        balance == Grouping.money - penalty - expense
