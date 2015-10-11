@@ -16,19 +16,32 @@ class UserInfo(models.Model):
     def get_cum_panelty(self):
         pass
 
+class Standard_Attendance(models.Model):
+    standard_late = models.IntegerField(max_length=20)
+       
+    def __str__(self):
+        return self.standard_late
+        # self.group.id != self.id
 
 class GroupInfo(models.Model):
     group = models.OneToOneField(Group)
-    deposit = models.CharField(max_length=20)
-    att_penalty = models.IntegerField(default=0)  # per minute
-    ass_penalty = models.IntegerField(default=0)  # done or undone
+    deposit_amount = models.CommaSeparatedIntegerField(max_length=20)
+    ass_penalty = models.CommaSeparatedIntegerField(default=0)  # done or undone
+    att_penalty = models.CommaSeparatedIntegerField(default=0) # 10분당 설정할 수 있게 / 30분 이상시 고정비
+    standard_late = models.ManyToManyField(Standard_Attendance)
     time_start = models.DateTimeField()
     time_end = models.DateTimeField(blank=True, null=True)
+    cuppon = models.CharField(max_length=20)
 
     def __str__(self):
         return self.group.name
         # self.group.id != self.id
 
+    def set_ass_penalty(time, standard_late): # standard_late 
+
+        if time <= 0
+            att_penalty = 0    
+   
 
 class Place(models.Model):
     name = models.CharField(max_length=30, blank=True, null=True)
@@ -60,9 +73,8 @@ class Meeting(models.Model):
         return str(self.time)
 
 
-class Attendance(models.Model):
-    meeting = models.ForeignKey(Meeting)
-    user = models.ForeignKey(UserInfo)  # user.id != userinfo.id
+class Penalty(models.Model):
+    grouping = models.ForeignKey(Grouping) 
     time_arrival = models.DateTimeField()
     done_hw = models.BooleanField(default=False)
 
@@ -83,3 +95,17 @@ class Attendance(models.Model):
 
     def islate(self):
         return self.get_att_penalty() > 0
+
+# 개인 유저와 그룹을 이어주는 테이블. 둘다 1:n 관계 
+class Grouping(models.Model):
+    group = models.ForeignKey(GroupInfo) # group.id != groupinfo.id
+    user = models.ForeignKey(UserInfo)  # user.id != userinfo.id
+
+    def __str__(self):
+        return self.group
+
+class Deposit(models.Model):
+    grouping = models.ForeignKey(Grouping)
+    penalty = models.CommaSeparatedIntegerField(max_length=20)
+    expense = models.CommaSeparatedIntegerField(max_length=20)
+    balance = models.CommaSeparatedIntegerField(max_length=20)
