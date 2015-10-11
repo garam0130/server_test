@@ -54,10 +54,10 @@ class Meeting(models.Model):
     time = models.DateTimeField()
     group = models.ForeignKey(GroupInfo)  # group.id != groupinfo.id
     place = models.ForeignKey(Place, blank=True, null=True)
-    homework = models.CharField(max_length=40, blank=True, null=True)  # to do at that day
+    homework = models.CharField(max_length=40, default='null')  # to do at that day
 
     def __str__(self):
-        return self.time.group
+        return str(self.time)
 
 
 class Attendance(models.Model):
@@ -80,3 +80,6 @@ class Attendance(models.Model):
     def get_ass_penalty(self):
         penalty = int(self.done_hw)*self.meeting.group.ass_penalty
         return penalty
+
+    def islate(self):
+        return self.get_att_penalty() > 0

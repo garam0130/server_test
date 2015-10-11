@@ -60,7 +60,7 @@
 <td>{{meeting.id}}</td>
 <td>{{meeting.group}}</td>
 <td>{{meeting.group.group.user_set.all}}</td>
-<td>{{meeting.time}}}</td>
+<td>{{meeting.time}}</td>
 <td>{{meeting.place}}</td>
 <td>{{meeting.homework}}</td>
 </tr>
@@ -73,13 +73,16 @@
 <td>meeting_id</td>
 <td>username</td>
 <td>time_arrival</td>
+<td>islate</td>
 <td>done_hw</td>
+
 </tr>
 {% for attendance in attendances %}
 <tr>
 <td>{{attendance.meeting.id}}</td>
 <td>{{attendance.user}}</td>
 <td>{{attendance.time_arrival}}</td>
+<td>{{attendance.islate}}</td>
 <td>{{attendance.done_hw}}</td>
 </tr>
 {% endfor %}
