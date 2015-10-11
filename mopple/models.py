@@ -11,7 +11,7 @@ class UserInfo(models.Model):
     balance = models.IntegerField(default=0)
 
     def __str__(self):
-        return '[U' + str(self.user.id) + ']' + self.user.username
+        return self.user.username
 
     def get_cum_panelty(self):
         pass
@@ -26,7 +26,7 @@ class GroupInfo(models.Model):
     time_end = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return '[G' + str(self.group.id) + ']' + self.group.name
+        return self.group.name
         # self.group.id != self.id
 
 
@@ -57,7 +57,7 @@ class Meeting(models.Model):
     homework = models.CharField(max_length=40, blank=True, null=True)  # to do at that day
 
     def __str__(self):
-        return '[G' + str(self.group.id) + ']' + str(self.time.date())
+        return self.time.group
 
 
 class Attendance(models.Model):
@@ -67,7 +67,7 @@ class Attendance(models.Model):
     done_hw = models.BooleanField(default=False)
 
     def __str__(self):
-        return '[G' + str(self.meeting.group.id) + ']' + self.user.username
+        return self.user.username
 
     def get_att_penalty(self):
         delta = self.meeting.time - self.time_arrival
