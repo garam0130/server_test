@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^$', 'mopple.views.index', name='index'),
     url(r'^signup/$', 'mopple.views.signup', name='signup'),
     url(r'^sms_request/$', 'mopple.views.sms_request', name='sms_request'),
+    url(r'^login/$', 'mopple.views.login'),
 ]

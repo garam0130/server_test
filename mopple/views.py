@@ -4,6 +4,7 @@ from mopple.models import *  # noqa
 from mopple.forms import UserInfoForm
 from django.http import HttpResponse
 import random
+from django.contrib.auth.views import login as auth_login
 
 
 def index(request):
@@ -33,3 +34,8 @@ def signup(request):
 def sms_request(request):
     key = random.randrange(1000, 10000)
     return HttpResponse(key)
+
+
+def login(request):
+    auth_login(request, template_name='form.html')
+    return auth_login(request, template_name='form.html')
