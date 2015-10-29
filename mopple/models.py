@@ -6,9 +6,10 @@ from datetime import timedelta
 class UserInfo(models.Model):
     user = models.OneToOneField(User)
     is_male = models.BooleanField(default=True)
-    account_number = models.CharField(max_length=20)
-    account_bank = models.CharField(max_length=10)
+    account_number = models.CharField(default='none', max_length=20)
+    account_bank = models.CharField(default='none', max_length=10)
     balance = models.IntegerField(default=0)
+    phone_number = models.CharField(max_length=20, default='none')
 
     def __str__(self):
         return self.user.username
@@ -27,13 +28,13 @@ class Standard_Attendance(models.Model):
 
 class GroupInfo(models.Model):
     group = models.OneToOneField(Group)
-    deposit_amount = models.CommaSeparatedIntegerField(max_length=20, blank=True, null=True)
+    deposit_amount = models.CommaSeparatedIntegerField(max_length=20, default=0)
     ass_penalty = models.CommaSeparatedIntegerField(max_length=10, default=0)  # done or undone
     att_penalty = models.CommaSeparatedIntegerField(max_length=10, default=0)  # 10분당 설정할 수 있게 / 30분 이상시 고정비
     standard_late = models.ManyToManyField(Standard_Attendance)
     time_start = models.DateTimeField()
     time_end = models.DateTimeField(blank=True, null=True)
-    cuppon = models.CharField(max_length=20, blank=True, null=True)
+    cuppon = models.CharField(max_length=20, default='none')
 
     def __str__(self):
         return self.group.name
@@ -64,12 +65,12 @@ class Place(models.Model):
 
 # 1 group N meeting
 class Meeting(models.Model):
-    title = models.CharField(max_length=20, blank=True, null=True)
+    title = models.CharField(max_length=20, default='noname')
     time = models.DateTimeField()
     group = models.ForeignKey(GroupInfo)  # group.id != groupinfo.id
     place = models.ForeignKey(Place, blank=True, null=True)
     homework = models.CharField(max_length=40, default='null')  # to do at that day
-    detail = models.TextField(blank=True, null=True)
+    detail = models.TextField(default='none')
 
     def __str__(self):
         return str(self.time)
@@ -79,10 +80,10 @@ class Meeting(models.Model):
 class Grouping(models.Model):
     group = models.ForeignKey(GroupInfo)  # group.id != groupinfo.id
     user = models.ForeignKey(UserInfo)  # user.id != userinfo.id
-    money = models.CommaSeparatedIntegerField(max_length=20)
+    money = models.CommaSeparatedIntegerField(max_length=20, default='0')
 
     def __str__(self):
-        return self.group
+        return self.group.group.name + '/' + self.user.user.username
 
 
 class Deposit(models.Model):

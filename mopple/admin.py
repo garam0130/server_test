@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mopple.models import UserInfo, Standard_Attendance, GroupInfo, Meeting, Place, Deposit, Grouping, Penalty
+from mopple.models import *  # noqa
 
 admin.site.register(UserInfo)
 admin.site.register(GroupInfo)
