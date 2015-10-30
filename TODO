@@ -1,0 +1,15 @@
+## models.py
+
+# AutoOneToOneField
+https://www.fusionbox.com/blog/detail/django-onetoonefields-are-hard-to-use-lets-make-them-better/551/
+https://github.com/skorokithakis/django-annoying
+
+# abstract user model
+https://docs.djangoproject.com/en/1.8/topics/auth/customizing/#specifying-custom-user-model
+http://stackoverflow.com/questions/21779226/abstractuser-django-full-example
+
+# Standard Attendance
+표준지각시간, 30분 이상은 고정벌금 등
+
+# 쿠폰
+# 그룹소비내역
