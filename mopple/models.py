@@ -1,40 +1,59 @@
 from django.db import models
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from datetime import timedelta
 
 
-class UserInfo(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User)
     is_male = models.BooleanField(default=True)
     phone_num = models.CharField(max_length=20, default='none')
-    created_at = models.DateTimeField(auto_now_add=True)
     account_num = models.CharField(default='none', max_length=20)
     account_bank = models.CharField(default='none', max_length=10)
+    cookie = models.CharField(default='none', max_length=10)
 
     def __str__(self):
         return self.user.username
 
 
-class GroupInfo(models.Model):
-    group = models.OneToOneField(Group)
+class Academy(models.Model):
+    user = models.OneToOneField(User)
+
+    def __str__(self):
+        return self.user.username
+
+
+class Teacher(models.Model):
+    user = models.OneToOneField(User)
+    academy = models.ForeignKey(Academy)
+    contents = models.FileField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
+
+
+class Team(models.Model):
+    name = models.CharField(max_length=20)
     balance = models.IntegerField(default=0)
     ass_rate = models.IntegerField(default=0)
     att_rate = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     cuppon = models.CharField(max_length=50, default='none')
+    deposit = models.IntegerField(default=0)
+    key = models.CharField(max_length=6, default='none')
+    teacher = models.ForeignKey(Teacher, blank=True, null=True)
 
     def __str__(self):
-        return self.group.name
-        # self.group.id != self.id
+        return self.name
 
 
 class Grouping(models.Model):
-    group = models.ForeignKey(GroupInfo)  # group.id != groupinfo.id
-    user = models.ForeignKey(UserInfo)  # user.id != userinfo.id
+    team = models.ForeignKey(Team)
+    user = models.ForeignKey(User)
     balance = models.IntegerField(default=0)
+    has_paid = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.group.group.name + '/' + self.user.user.username
+        return self.team.name + '/' + self.user.username
 
 
 class Place(models.Model):
@@ -58,13 +77,13 @@ class Place(models.Model):
 class Meeting(models.Model):
     title = models.CharField(max_length=20, default='noname')
     time = models.DateTimeField()
-    group = models.ForeignKey(GroupInfo)  # group.id != groupinfo.id
+    team = models.ForeignKey(Team)  # group.id != groupinfo.id
     place = models.ForeignKey(Place, blank=True, null=True)
     homework = models.CharField(max_length=50, default='null')  # to do at that day
     detail = models.TextField(default='none')
 
     def __str__(self):
-        return self.group.group.name + '/' + str(self.time)
+        return self.team.name + '/' + str(self.time)
 
 
 class Penalty(models.Model):
@@ -74,7 +93,7 @@ class Penalty(models.Model):
     done_hw = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.grouping.__str__() + '/' + self.meeting.__str__()
+        return self.grouping.user.__str__() + '/' + self.meeting.__str__()
 
     def get_att_penalty(self):
         delta = self.meeting.time - self.time_arrival
