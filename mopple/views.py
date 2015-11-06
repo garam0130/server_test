@@ -8,14 +8,7 @@ from django.contrib.auth.views import login as auth_login
 
 
 def index(request):
-    users = UserInfo.objects.all()
-    groups = GroupInfo.objects.all()
-    places = Place.objects.all()
-    meetings = Meeting.objects.all()
-    # attendance = Attendance.objects.all()
-    args = {'users': users, 'groups': groups, 'places': places, 'meetings': meetings, }
-
-    return render(request, "index.html", args)
+    return render(request, "index.html")
 
 
 def signup(request):
