@@ -16,10 +16,10 @@ class Profile(models.Model):
 
 
 class Academy(models.Model):
-    user = models.OneToOneField(User)
+    admin_user = models.OneToOneField(User)
 
     def __str__(self):
-        return self.user.username
+        return self.admin_user.username
 
 
 class Teacher(models.Model):
@@ -77,7 +77,7 @@ class Place(models.Model):
 class Meeting(models.Model):
     title = models.CharField(max_length=20, default='noname')
     time = models.DateTimeField()
-    team = models.ForeignKey(Team)  # group.id != groupinfo.id
+    team = models.ForeignKey(Team)
     place = models.ForeignKey(Place, blank=True, null=True)
     homework = models.CharField(max_length=50, default='null')  # to do at that day
     detail = models.TextField(default='none')
@@ -100,11 +100,11 @@ class Penalty(models.Model):
         if delta >= timedelta(0):
             return 0
         else:
-            penalty = abs(delta).seconds/60*self.meeting.group.att_penalty
+            penalty = abs(delta).seconds/60*self.meeting.team.att_rate
             return round(penalty)
 
     def get_ass_penalty(self):
-        penalty = int(not self.done_hw)*self.meeting.group.ass_penalty
+        penalty = int(not self.done_hw)*self.meeting.team.ass_rate
         return penalty
 
     def islate(self):
