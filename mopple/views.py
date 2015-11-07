@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from mopple.models import *  # noqa
 # from django.contrib.auth.forms import UserCreationForm
-from mopple.forms import UserInfoForm
+from mopple.forms import ProfileForm
 from django.http import HttpResponse
 import random
 from django.contrib.auth.views import login as auth_login
@@ -12,15 +12,16 @@ def index(request):
 
 
 def signup(request):
-    # TODO: no form required. need to parse request.POST
     if request.method == 'POST':
-        form = UserInfoForm(request.POST)
-        # validation check at client side(?)
+        form = ProfileForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            facebook_id = form.cleaned_data.get('facebook_id')
+            profile = Profile(user=user, facebook_id=facebook_id)
+            profile.save()
             return redirect('index')
     else:
-        form = UserInfoForm()
+        form = ProfileForm()
     return render(request, 'form.html', {'form': form, })
 
 

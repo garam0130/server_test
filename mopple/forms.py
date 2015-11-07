@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 
-class UserInfoForm(UserCreationForm):
+class ProfileForm(UserCreationForm):
+    facebook_id = forms.CharField(max_length=50)
     phone_number = forms.CharField()
     is_male = forms.BooleanField()
     account_number = forms.CharField(max_length=20)
