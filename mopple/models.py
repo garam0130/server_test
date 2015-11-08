@@ -6,7 +6,7 @@ from datetime import timedelta
 class Profile(models.Model):
     user = models.OneToOneField(User)
     is_male = models.BooleanField(default=True)
-    facebook_id = models.CharField(max_length=20)
+    facebook_id = models.CharField(max_length=20, blank=True, null=True)
     phone_num = models.CharField(max_length=20, default='none')
     account_num = models.CharField(default='none', max_length=20)
     account_bank = models.CharField(default='none', max_length=10)
