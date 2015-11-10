@@ -19,7 +19,9 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'mopple.views.index', name='index'),
-    url(r'^signup/$', 'mopple.views.signup', name='signup'),
-    url(r'^sms_request/$', 'mopple.views.sms_request', name='sms_request'),
     url(r'^login/$', 'mopple.views.login'),
+    url(r'^user/$', 'mopple.views.user_list'),
+    url(r'^user/(?P<pk>[0-9]+)/$', 'mopple.views.user_detail'),
+    url(r'^profile/$', 'mopple.views.profile_list'),
+    url(r'^profile/(?P<pk>[0-9]+)/$', 'mopple.views.profile_detail'),
 ]
