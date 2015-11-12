@@ -16,16 +16,16 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from rest_framework.urlpatterns import format_suffix_patterns
-
+from mopple import views
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'mopple.views.index', name='index'),
-    url(r'^login/$', 'mopple.views.login'),
-    url(r'^user/$', 'mopple.views.user_list'),
-    url(r'^user/(?P<pk>[0-9]+)/$', 'mopple.views.user_detail'),
-    url(r'^profile/$', 'mopple.views.profile_list'),
-    url(r'^profile/(?P<pk>[0-9]+)/$', 'mopple.views.profile_detail'),
+    url(r'^$', views.index),
+    url(r'^login/$', views.login),
+    url(r'^user/$', views.UserList.as_view()),
+    url(r'^user/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
+    url(r'^profile/$', views.ProfileList.as_view()),
+    url(r'^profile/(?P<pk>[0-9]+)/$', views.ProfileDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
