@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from rest_framework.urlpatterns import format_suffix_patterns
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -25,3 +27,5 @@ urlpatterns = [
     url(r'^profile/$', 'mopple.views.profile_list'),
     url(r'^profile/(?P<pk>[0-9]+)/$', 'mopple.views.profile_detail'),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
