@@ -1,7 +1,7 @@
 from django.contrib import admin
 from mopple.models import *  # noqa
 
-admin.site.register(Profile)
+admin.site.register(Student)
 admin.site.register(Team)
 admin.site.register(Meeting)
 admin.site.register(Place)

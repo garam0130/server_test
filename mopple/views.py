@@ -2,7 +2,7 @@ from django.shortcuts import render
 from mopple.models import *
 from django.contrib.auth.views import login as auth_login
 from django.contrib.auth.models import User
-from mopple.serializers import ProfileSerializer
+from mopple.serializers import StudentSerializer
 from mopple.serializers import UserSerializer
 from rest_framework import generics
 
@@ -17,14 +17,14 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
 
-class ProfileList(generics.ListCreateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+class StudentList(generics.ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
 
-class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
 
 
 def index(request):

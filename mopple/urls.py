@@ -24,8 +24,8 @@ urlpatterns = [
     url(r'^login/$', views.login),
     url(r'^user/$', views.UserList.as_view()),
     url(r'^user/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
-    url(r'^profile/$', views.ProfileList.as_view()),
-    url(r'^profile/(?P<pk>[0-9]+)/$', views.ProfileDetail.as_view()),
+    url(r'^student/$', views.StudentList.as_view()),
+    url(r'^student/(?P<pk>[0-9]+)/$', views.StudentDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

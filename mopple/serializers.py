@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from mopple.models import Profile
+from mopple.models import Student
 from django.contrib.auth.models import User
 
 
@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'password')
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class StudentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Profile
+        model = Student
         fields = '__all__'
