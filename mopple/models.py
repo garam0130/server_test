@@ -12,7 +12,7 @@ class Student(models.Model):
         ('FEMALE', '여자'),
         ('MALE', '남자'),
     )
-    sex = models.CharField(max_length=2, choices=sex_list, default='FEMALE')
+    sex = models.CharField(max_length=6, choices=sex_list, default='FEMALE')
 
     def __str__(self):
         return self.user.username
