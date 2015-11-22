@@ -112,3 +112,8 @@ class Penalty(models.Model):
 
     def islate(self):
         return self.get_att_penalty() > 0
+
+
+class Post(models.Model):
+    content = models.CharField(max_length=10)
+    owner = models.ForeignKey('auth.User', related_name='post')

@@ -9,3 +9,5 @@ admin.site.register(Penalty)
 admin.site.register(Grouping)
 admin.site.register(Teacher)
 admin.site.register(Academy)
+admin.site.register(Post)
+
