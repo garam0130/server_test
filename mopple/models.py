@@ -90,13 +90,13 @@ class Meeting(models.Model):
 
 
 class Penalty(models.Model):
-    grouping = models.ForeignKey(Grouping)
+    user = models.ForeignKey('auth.User', related_name='penalty')
     meeting = models.ForeignKey(Meeting)
     time_arrival = models.DateTimeField()
     done_hw = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.grouping.user.__str__() + '/' + self.meeting.__str__()
+        return self.user.username + '/' + self.meeting.__str__()
 
     def get_att_penalty(self):
         delta = self.meeting.time - self.time_arrival
@@ -112,8 +112,3 @@ class Penalty(models.Model):
 
     def islate(self):
         return self.get_att_penalty() > 0
-
-
-class Post(models.Model):
-    content = models.CharField(max_length=10)
-    owner = models.ForeignKey('auth.User', related_name='post')
