@@ -1,18 +1,17 @@
 from mopple.models import Student, Meeting, Team, Penalty
-from django.contrib.auth.models import User
-from mopple.serializers import StudentSerializer, UserSerializer, TeamSerializer, MeetingSerializer, PenaltySerializer
+from mopple.serializers import StudentSerializer, TeamSerializer, MeetingSerializer, PenaltySerializer
 from rest_framework import permissions
-from mopple.permissions import IsOwner
 from rest_framework import viewsets
 
 
 class PenaltyViewSet(viewsets.ModelViewSet):
-    queryset = Penalty.objects.all()
+    queryset = Penalty.objects
     serializer_class = PenaltySerializer
-    permission_classes = (IsOwner,)
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        return self.request.user.penalty
+        user = self.request.user
+        return Penalty.objects.filter(user=user)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -23,20 +22,42 @@ class MeetingViewSet(viewsets.ModelViewSet):
     serializer_class = MeetingSerializer
     permission_classes = (permissions.IsAuthenticated,)
 
+    def get_queryset(self):
+        user = self.request.user
+
+        meeting_set = []
+        for item in user.grouping_set.all():
+            for item2 in item.team.meeting_set.all():
+                meeting_set.append(item2)
+        return meeting_set
+
+    '''#에러가 안난다
+    try:
+        return user.grouping_set.last().team.meeting_set.all()
+    except:
+        return None
+    '''
+
+
 
 class TeamViewSet(viewsets.ModelViewSet):
-    queryset = Team.objects.all()
+    queryset = Team.objects
     serializer_class = TeamSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    permission_classes = (permissions.IsAuthenticated,)
 
-    
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (permissions.IsAdminUser,)
+    def get_queryset(self):
+        user = self.request.user
+        team_set = []
+        for item in user.grouping_set.all():
+            team_set.append(item.team)
+        return team_set
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
+    queryset = Student.objects
     serializer_class = StudentSerializer
-    permission_classes = (IsOwner,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        user = self.request.user
+        return Student.objects.filter(user=user)

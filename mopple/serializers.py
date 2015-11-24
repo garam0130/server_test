@@ -1,43 +1,33 @@
 from rest_framework import serializers
 from mopple.models import *
-from django.contrib.auth.models import User
 
-
-class UserSerializer(serializers.ModelSerializer):
-    penalty = serializers.PrimaryKeyRelatedField(many=True, queryset=Penalty.objects.all())
-    student = serializers.PrimaryKeyRelatedField(queryset=Student.objects.all())
-    teacher = serializers.PrimaryKeyRelatedField(queryset=Teacher.objects.all())
-    academy = serializers.PrimaryKeyRelatedField(queryset=Academy.objects.all())
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'password', 'penalty', 'student', 'teacher', 'academy')
-
-        
 
 class StudentSerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
+    username = serializers.CharField(source='user.username')
 
     class Meta:
         model = Student
-        fields = '__all__'
+        fields = ('username', 'sex', 'facebook_id', 'account_num', 'account_bank', )
 
 
 class MeetingSerializer(serializers.ModelSerializer):
+    team_name = serializers.CharField(source='team.name')
+    place_name = serializers.CharField(source='place.name')
     class Meta:
         model = Meeting
-        fields = '__all__'
+        fields = ('title', 'time', 'team_name', 'place_name', 'homework')
 
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = '__all__'
+        fields = ('name', )
 
 
 class PenaltySerializer(serializers.ModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.username')
+    place = serializers.CharField(source='meeting.place')
+    team_name = serializers.CharField(source='meeting.team.name')
 
     class Meta:
         model = Penalty
-        fields = '__all__'
+        fields = ('time_arrival', 'team_name', 'place', 'get_ass_penalty', 'get_att_penalty')

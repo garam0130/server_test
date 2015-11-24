@@ -6,7 +6,6 @@ from rest_framework.routers import DefaultRouter
 
 
 router = DefaultRouter()
-router.register(r'user', views.UserViewSet)
 router.register(r'meeting', views.MeetingViewSet)
 router.register(r'team', views.TeamViewSet)
 router.register(r'penalty', views.PenaltyViewSet)
@@ -37,12 +36,6 @@ penalty_detail = PenaltyViewSet.as_view({
     'put': 'update',
     'patch': 'partial_update',
     'delete': 'destroy'
-})
-user_list = UserViewSet.as_view({
-    'get': 'list'
-})
-user_detail = UserViewSet.as_view({
-    'get': 'retrieve'
 })
 team_list = TeamViewSet.as_view({
     'get': 'list'
